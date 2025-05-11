@@ -12,6 +12,7 @@ import android.service.wallpaper.WallpaperService;
 import android.view.SurfaceHolder;
 import androidx.media3.common.MediaItem;
 import androidx.media3.common.Player;
+import com.example.oxygenoslivewall.R;
 import androidx.media3.exoplayer.ExoPlayer;
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector;
 
@@ -42,7 +43,7 @@ public class MainActivity extends WallpaperService {
 
         private void initializeExoPlayer(SurfaceHolder holder) {
             // Use a DefaultTrackSelector with an increased maximum video size to handle higher resolutions.
-            DefaultTrackSelector trackSelector = new DefaultTrackSelector(this);
+            DefaultTrackSelector trackSelector = new DefaultTrackSelector(getApplicationContext());
             trackSelector.setParameters(trackSelector.buildUponParameters().setMaxVideoSizeSd());
             exoPlayer = new ExoPlayer.Builder(getApplicationContext()).setTrackSelector(trackSelector).build();
             exoPlayer.setVideoSurface(holder.getSurface());
