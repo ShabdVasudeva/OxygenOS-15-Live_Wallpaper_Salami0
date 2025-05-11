@@ -13,6 +13,7 @@ import android.view.SurfaceHolder;
 import androidx.media3.common.MediaItem;
 import androidx.media3.common.Player;
 import androidx.media3.exoplayer.ExoPlayer;
+import androidx.media3.exoplayer.trackselection.DefaultTrackSelector;
 
 public class MainActivity extends WallpaperService {
     @Override
@@ -40,7 +41,10 @@ public class MainActivity extends WallpaperService {
         }
 
         private void initializeExoPlayer(SurfaceHolder holder) {
-            exoPlayer = new ExoPlayer.Builder(getApplicationContext()).build();
+            // Use a DefaultTrackSelector with an increased maximum video size to handle higher resolutions.
+            DefaultTrackSelector trackSelector = new DefaultTrackSelector(this);
+            trackSelector.setParameters(trackSelector.buildUponParameters().setMaxVideoSizeSd());
+            exoPlayer = new ExoPlayer.Builder(getApplicationContext()).setTrackSelector(trackSelector).build();
             exoPlayer.setVideoSurface(holder.getSurface());
             MediaItem mediaItem =
                     MediaItem.fromUri("android.resource://" + getPackageName() + "/" + R.raw.wall);
